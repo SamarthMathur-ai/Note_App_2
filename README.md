@@ -1,2 +1,46 @@
 # Note_App_2
 It is the new notes app with a complete backend and hopefully deployed you can see the previous version in the repository "Note_App"
+
+Day 1 1/05/2026
+What i learnt: git hub and how to add sql and about es module in js
+Some other thing
+// About github
+GIT REPOSITORY SETUP & CONFLICT RESOLUTION
+Project: SimpleNotesApp2
+
+1. INITIALIZING LOCAL REPO
+- Initialized git in the project folder.
+- Committed existing local code to have a starting point.
+- Command: git init -> git add . -> git commit -m "Initial commit"
+
+2. CONNECTING TO GITHUB
+- Linked local folder to the remote GitHub repository.
+- Used rebase to bring in the README and .gitignore from GitHub.
+- Command: git remote add origin <URL>
+- Command: git pull origin main --rebase
+
+3. RESOLVING .GITIGNORE CONFLICT (ADD/ADD)
+- Conflict occurred because both local and GitHub created a .gitignore.
+- Manually edited .gitignore to remove conflict markers (<<<<, ====, >>>>).
+- Kept the comprehensive GitHub Node.js template.
+- Verified node_modules and .env were properly ignored.
+
+4. COMPLETING THE REBASE
+- Marked the conflict as resolved.
+- Used Vim (:wq) to save the commit message during the rebase process.
+- Command: git add .gitignore
+- Command: git rebase --continue
+
+5. FINAL PUSH
+- Pushed the merged code and history to GitHub.
+- Command: git push -u origin main
+
+BEST PRACTICES LEARNED:
+- Use git pull --rebase to keep a clean, linear history.
+- Always check .gitignore before pushing to keep node_modules and secrets off the web.
+- If the project already has code, it is often easier to create an empty repo on GitHub first.
+
+
+about code
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = path.dirname(__filename); 
