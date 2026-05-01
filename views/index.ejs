@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Basic Notes App</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu"
+    />
+</head>
+
+<body id="body">
+
+    
+
+    <div id="container">
+
+        <!-- App Bar -->
+        <div id="appbar" class="appbar">
+            
+            <button id="sidebarbtn" class="sbtn">
+                <img src="menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="menu" class="appbarimg">
+            </button>
+            <p> My first simple notes app</p>
+            <button id="newbtn" class="sbtn">+</button>
+            <button id="savebtn" class="sbtn">Save</button>
+            <button id="deletebtn" class="sbtn">Delete</button>
+        </div>
+
+        <!-- Main Layout -->
+        <div id="layout">
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="content">
+                    <div class="iconlayer">
+                        <img src="book_ribbon_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="book_ribbon" class="imgicon">
+                        <!-- <img src="info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="info" class="imgicon"> -->
+                    </div>
+                    <div class="sidebuttcon">
+                        <button id="prevNotes" class="sbtn sideIcon">
+                            <p>Saved Notes</p>
+                        </button>
+                        <!-- <button id="about" class="sbtn sideIcon">
+                            <p>About</p>
+                        </button> -->
+                    </div>
+                </div>
+                
+                <!-- <button id="about" class="sbtn sideIcon">Abbout</button> -->
+            </div>
+
+            <!-- Note Area -->
+            <div id="notediv">
+                <textarea name="head" id="head" rows="1" cols="1"></textarea>
+                <textarea readonly name="note" id="note" rows="5" cols="33"></textarea>
+            </div>
+
+        </div>
+
+        <!-- Popups / Containers -->
+        <div id="savedCont" class="butbox">
+            <input type="text" id="searchbar" placeholder="Search here....">
+            <% for (let note of allnotes) { %>
+                <div class="actualSavedCont" data-id="<%= note.id %>">
+                    <h3><%= note.title%></h3>
+                    <p><%= note.content%></p>
+                    <div>
+                        <button class="open-btn" onclick="window.onButton('<%= note.id%>')">open</button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div id="aboutBox" class="butbox"></div>
+
+    </div>
+
+
+
+    <!-- LOADING SCREEN -->
+    
+    <div id="stage"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
+    <script type="module" src="script.js"></script>
+    <script type="module" src="sidebar.js"></script>
+    <script type="module" src="savebtn.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+/* =========================
+   Global / Scrollbar
+   ========================= */
+
+html::-webkit-scrollbar {
+    display: none;
+    /* ! the actual scrolling element is html, not body in most browsers */
+}
+
+body {
+    background-color: #fefae0;
+    display: flex;
+    flex-direction: column;
+
+    scrollbar-width: none;
+    /* Firefox */
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================
+   App Bar
+   ========================= */
+
+#appbar {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+
+    background-color: #bc6c25;
+
+    position: relative;
+    top: 0;
+    left: 0;
+
+    padding: 6px;
+
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+#appbar p {
+    margin: auto;
+    color: #fefae0;
+    font-size: 20px;
+}
+
+
+/* =========================
+   Buttons
+   ========================= */
+
+.sbtn {
+    box-sizing: border-box;
+    width: 5%;
+    height: 100%;
+
+    background-color: #dda15e;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    border-radius: 4px;
+
+    font-family: "Georgia", serif;
+    font-weight: 200;
+    font-style: italic;
+    font-size: larger;
+
+    position: relative;
+    /* needed for ::before */
+    overflow: hidden;
+    z-index: 1;
+
+    margin-right: 14px;
+}
+
+.sbtn::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 0%;
+    height: 100%;
+
+    background-color: #fefae0;
+    transition: all 0.3s;
+
+    z-index: -1;
+}
+
+.sbtn:hover {
+    color: #bc6c25;
+}
+
+.sbtn:hover::before {
+    width: 100%;
+}
+
+#headingbtn {
+    margin-left: auto;
+}
+
+#sidebarbtn {
+    margin-right: auto;
+    border-radius: 100%;
+}
+
+
+
+
+/* =========================
+   Layout
+   ========================= */
+
+#layout {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* =========================
+   Note Area
+   ========================= */
+
+#notediv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 700px;
+
+    margin-top: 15px;
+    flex-grow: 1;
+}
+
+#note {
+    position: relative;
+
+    box-sizing: border-box;
+    resize: none;
+
+    width: 80%;
+    height: 100%;
+    margin: auto;
+
+    background-color: #fefae0;
+
+    font-size: 25px;
+    font-family: Helvetica, Arial, sns-serif;
+
+    border: none;
+    outline: none;
+
+    overflow: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE / old Edge */
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+#head {
+    position: relative;
+    left: 30%;
+
+    box-sizing: border-box;
+    resize: none;
+
+    width: 40%;
+    height: 20%;
+
+    background-color: #fefae0;
+
+    font-size: 50px;
+    font-family: Helvetica, Arial, sns-serif;
+
+    border: none;
+    outline: none;
+
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+
+/* =========================
+   Sidebar
+   ========================= */
+
+#sidebar {
+    position: relative;
+    top: 10px;
+    left: 0px;
+
+    box-sizing: border-box;
+    width: 5%;
+    height: 400px;
+
+    background-color: #dda15e;
+
+    border: none;
+    border-radius: 7px;
+
+    margin-right: 10px;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transition: width 0.3s ease;
+
+    overflow: hidden;
+}
+
+#sidebar.open {
+    position: relative;
+    width: 20%;
+    overflow: hidden;
+}
+
+
+/* =========================
+   Icons
+   ========================= */
+
+.material-symbols-outlined {
+    color: #bc6c25;
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 20;
+}
+
+
+/* =========================
+   Sidebar Buttons
+   ========================= */
+.content {
+    display: flex;
+    justify-content: flex-start;
+}   
+.sidebuttcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    flex-shrink: 1;
+    
+}
+
+.iconlayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    flex-shrink: 0;
+}
+
+.imgicon {
+    margin-top: 30px;
+    /* Applying animation */
+
+}
+
+#sidebar.open .imgicon {
+    animation: spin 0.3s linear;
+}
+
+@keyframes spin {
+    from{
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+    
+}
+#sidebar.open .imgicon {
+    margin-right: 5px;
+}
+
+.sideIcon {
+    width: 0px;
+    height: 40px;
+    padding: 0px;
+    margin-top: 20px;
+
+    background-color: #bc6c25;
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    transition: width 0.3s ease;
+}
+
+#sidebar.open .sideIcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    overflow: hidden;
+     /*So text don't go on double line*/
+    width:175px;
+}
+
+#prevNotes p {
+    white-space: nowrap;
+}
+
+/* =========================
+   Popup Containers
+   ========================= */
+#savedCont,
+#aboutBox {
+    position: absolute;
+    top: 68px;
+    left: 300px;
+    z-index: 999;
+    width: 500px;
+    max-height: 500px;
+    /* Limits overall popup height */
+    border-radius: 8px;
+    background-color: #dda15e;
+    display: none;
+    padding: 20px;
+    overflow-y: auto;
+    /* Only the main container gets a scrollbar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    /* Adds a nice drop shadow */
+    box-sizing: border-box;
+}
+
+/* Use Flexbox to space the children automatically */
+#savedCont.open,
+#aboutBox.open {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* =========================
+   Search Bar
+   ========================= */
+#searchbar {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: #bc6c25;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+#searchbar::placeholder {
+    color: #ebd1b8;
+}
+
+/* =========================
+   Individual Note Cards
+   ========================= */
+.actualSavedCont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #bc6c25;
+    border-radius: 6px;
+    padding: 15px;
+    box-sizing: border-box;
+    /* Height is now set automatically by the content */
+}
+
+.actualSavedCont h3 {
+    margin: 0 0 10px 0;
+    color: #000;
+}
+
+.actualSavedCont p {
+    margin: 0 0 15px 0;
+    line-height: 1.4;
+
+    /* Truncates text after 3 lines so cards don't get massively tall */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Clean up the open button so it's not cut off */
+.open-btn {
+    align-self: flex-start;
+    padding: 6px 12px;
+    background: #fff;
+    color: #bc6c25;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.open-btn:hover {
+    background: #eee;
+}
+
+
+/* LOADING SCREEN */
+/* LOADING SCREEN */
+#stage {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: #bc6c25;
+    font-family: 'Source Code Pro', "SFMono-Regular", Menlo, Consolas, Monaco, monospace;
+    font-size: 10px;
+    line-height: 1;
+    color: #dda15e;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    pointer-events: none;
+}
+
+#stage.active {
+    display: flex;
+}
+
+#stage pre {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
