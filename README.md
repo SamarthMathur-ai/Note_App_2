@@ -44,3 +44,11 @@ BEST PRACTICES LEARNED:
 about code
 const __filename = fileURLToPath(import.meta.url); 
 const __dirname = path.dirname(__filename); 
+
+
+
+
+Day 2 3/05/2026
+What i learnt: crud operation with the help of mysql 2
+              error handling with try and catch and hack proof using prepared statement
+              and that json is still useful as even though we are using sql it is still used to interact with the frontend.
