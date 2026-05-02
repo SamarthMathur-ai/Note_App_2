@@ -18,13 +18,14 @@ const db = await mysql.createConnection({
     host:"localhost",
     user:"root",
     password:"16121972Samarth!",
-    database:""
+    database:"note_app"
 });
 
 // * Recreate __dirname and __filename (The ES Module workaround)
 const __filename = fileURLToPath(import.meta.url); // * Because Express and your computer's file system can't read file:/// URLs, we use this built-in Node function to strip away the weird URL formatting and convert it back into a normal, readable computer path.
 const __dirname = path.dirname(__filename); // * Now that we have the exact path to the server.js file, we just need the folder it sits inside. path.dirname() looks at the string, chops off the actual file name at the very end (\server.js), and leaves only the folder path.
 
+let port = 8080;
 console.log("My SQL is connected");
 
 
@@ -40,8 +41,9 @@ console.log("My SQL is connected");
 
 
 // ! Changed Code
+app.use(express.json()); // * JSON IS COMING IN HANDY
 app.use(express.static(path.join(__dirname,'public')));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));// * for complex things
 app.set("view engine", "ejs");
 console.log("This is working upto second step.");
 
@@ -49,41 +51,144 @@ console.log("This is working upto second step.");
 //     res.render("index", {allnotes: users});
 // })
 
+// ! Changed Code
+app.get("/",async (req,res)=>{
+    try {
+        const [users] = await db.execute(`
+            SELECT * FROM notes;    
+        `)
+        res.render("index", {allnotes:users})
+    } catch (error) {
+        console.log(`Database error: ${error}`);
+        res.status(500).send("Something went wrong");
+    }
+})
+// * Nothing to change here
+
+
+
+
+
 // app.get("/getNote/:id", (req,res)=> {
 //     const id = req.params.id;
 
-//     const foundNote = users.find(n => n.id==id);
+//     const foundNote = users.find(n => n.id==id); // * Here it is sending the whole object
 
 //     if(foundNote) {
-//         res.json(foundNote);
+//         res.json(foundNote); // * Here it is sending the whole response as json file.
 //     } else {
 //         res.status(404).send("not found");
 //     }
     
 // })
 
+
+
+// ! Changed Code
+
+// * Making a database
+// await db.execute(`
+//     CREATE DATABASE IF NOT EXISTS note_app
+// `);
+
+// console.log("Database created.");
+
+// await db.query(`
+//     USE note_app;
+// `);
+
+// await db.execute(`
+//     CREATE TABLE notes(
+//         id INT AUTO_INCREMENT PRIMARY KEY,
+//         title VARCHAR(255),
+//         content TEXT 
+//     )
+// `)
+ // ? Remember to add the timestamp in future
+
+// console.log("Using database.")
+
+//! Starting from here again
+app.get("/getNote/:id", async (req,res)=>{
+    const select_id = req.params.id;
+
+    const [result] = await db.execute(`
+        SELECT * FROM user WHERE id = ?
+    `,[select_id])
+
+    const foundNote = result[0]; // ? so that meta data does not come
+
+    if(foundNote) {
+        res.json(foundNote);
+    } else {
+        res.status(404).send("not found");
+    }
+})
+
+
 // app.post("/save", (req,res)=> {
 //     const {title, content, id} = req.body;
 //     let currId = id;
 //     if(currId) {
 //         const index = users.findIndex(u=>u.id == currId);
-//         users[index] = {...users[index],title, content}; // should be the same to overwrite the name.
+//         users[index] = {...users[index],title, content}; // should be the same to overwrite the name.// * It is putting here only from the frontend only
 //     }
 //     else {
 //         currId = Date.now();
 //         users.push({id: currId, content ,title});
 //     }
     
-//     fs.writeFile('./storage.json', JSON.stringify(users), (err,data)=> {
+//     fs.writeFile('./storage.json', JSON.stringify(users), (err,data)=> {// * Making string which we wil not use.
 //         console.log("Is it showing");
 //         return res.json({status: "200", id: currId});
 //     })
 // })
 
+// ! Changed Code
+app.post("/save", async (req,res)=> {
+    console.log("Full Body Received:", req.body);
+    const {title, content, id} = req.body;
+    let currId = id;
+    if(currId) {
+        try {
+            const [rows] = await db.execute(`
+                SELECT id FROM notes WHERE id = ?
+            `,[currId]);
+            // ? if the row exists
+            if(row>0) {
+                let index = rows[0].id;
+                db.execute(`
+                    UPDATE notes SET title = ?, content = ? WHERE id = ?
+                `,[title,content,index]);
+                console.log("Updated the curr note");
+            }
+        } catch (error) {
+            console.log(`Database error: ${error}`);
+            res.status(500).send("There is some problem");
+        }
+    }
+    else {
+        try {
+            await db.execute(`
+                INSERT INTO notes(title,content)
+                VALUES
+                (?,?)
+            `,[title,content]);
+            console.log("Added new note.");
+        } catch (error) {
+            console.log(`Database error: ${error}`);
+            res.status(500).send("There is some problem");
+        }
+    }
+    await db.execute(`
+        SELECT * FROM notes;
+    `)
+})
+
 
 // app.delete("/delete/:id",(req,res)=> {
 //     const id = req.params.id;
-//     users = users.filter(n=> n.id != id);
+//     users = users.filter(n=> n.id != id); // * Filter the data where it is not  id.
 
 //     fs.writeFile('./storage.json', JSON.stringify(users), (err,data)=> {
 //         console.log("The data is deleted and the new data is saved unto the file.");
@@ -91,12 +196,23 @@ console.log("This is working upto second step.");
 //     })
 // })
 
+// ! Changed Code
+app.delete("/delete/:id",(req,res)=> {
+    const currId = req.params.id;
+    db.execute(`
+       DELETE FROM notes WHERE id = ? 
+    `, [currId]);
+    db.execute(`
+        SELECT * FROM notes;
+    `)
+})
+
 // app.listen(port, ()=> {
 //     console.log(`app is listening on ${port}`);
 
 // })
 // ! Changed Code
-let port = 8080;
+
 app.listen(port,()=>{
     console.log(`App is listening on port ${port}`);
 })
