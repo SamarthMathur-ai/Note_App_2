@@ -45,6 +45,7 @@ const saveBtnFunc = async()=>{
         // adding onto the html
         if(currId == null) {
             // Create a brand new card
+            currId = result.id;
             const sidebar = document.querySelector("#savedCont");
             const newNoteCard = `
             <div class="actualSavedCont" data-id="${result.id}">
@@ -53,13 +54,19 @@ const saveBtnFunc = async()=>{
             <button class="open-btn" onclick="window.onButton('${result.id}')">Open</button>
         </div> 
             `
-            sidebar.insertAdjacentHTML('beforeend', newNoteCard);
+            sidebar.prepend(newNoteCard);
         } else {
             // It is an existing note: find the card and update it
             const existingCard = document.querySelector(`.actualSavedCont[data-id="${currId}"]`);
+            
             if(existingCard) {
                 existingCard.querySelector('h3').textContent = update.title;
                 existingCard.querySelector('p').textContent = update.content;
+                const sidebar = document.querySelector("#savedCont");
+                existingCard.style.border = "5px solid red"; // VISUAL TEST
+    
+                existingCard.reomve();
+                sidebar.prepend(existingCard);
             }
         }   
         currId = result.id;  
@@ -131,10 +138,12 @@ const deleteBtnFunc = async() => {
             const response = await fetch(`/delete/${currId}`,{
                 method : 'DELETE'
             });
-
-            const cardToDestroy = document.querySelector(`.actualSavedCont[data-id="${currId}"]`);
-            if(cardToDestroy) {
-                cardToDestroy.remove();
+            const data = await response.json();
+            if(data.status==="200") {
+                const cardToDestroy = document.querySelector(`.actualSavedCont[data-id="${currId}"]`);
+                if(cardToDestroy) {
+                    cardToDestroy.remove();
+                }
             }
         }
         currId = null;

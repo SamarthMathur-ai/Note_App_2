@@ -55,7 +55,7 @@ console.log("This is working upto second step.");
 app.get("/",async (req,res)=>{
     try {
         const [users] = await db.execute(`
-            SELECT * FROM notes;    
+            SELECT * FROM notes ORDER BY update_time DESC;   
         `)
         res.render("index", {allnotes:users})
     } catch (error) {
@@ -113,7 +113,7 @@ app.get("/getNote/:id", async (req,res)=>{
     const select_id = req.params.id;
 
     const [result] = await db.execute(`
-        SELECT * FROM user WHERE id = ?
+        SELECT * FROM notes WHERE id = ?
     `,[select_id])
 
     const foundNote = result[0]; // ? so that meta data does not come
@@ -155,12 +155,13 @@ app.post("/save", async (req,res)=> {
                 SELECT id FROM notes WHERE id = ?
             `,[currId]);
             // ? if the row exists
-            if(row>0) {
-                let index = rows[0].id;
-                db.execute(`
-                    UPDATE notes SET title = ?, content = ? WHERE id = ?
+            if(rows.length>0) {
+                let index = currId;
+                await db.execute(`
+                    UPDATE notes SET title = ?, content = ?, update_time = CURRENT_TIMESTAMP WHERE id = ?
                 `,[title,content,index]);
                 console.log("Updated the curr note");
+                res.json({status:200, message:"Successfully updated"})
             }
         } catch (error) {
             console.log(`Database error: ${error}`);
@@ -175,14 +176,15 @@ app.post("/save", async (req,res)=> {
                 (?,?)
             `,[title,content]);
             console.log("Added new note.");
+            res.json({status:200, message:"New data inserted."})
         } catch (error) {
             console.log(`Database error: ${error}`);
             res.status(500).send("There is some problem");
         }
     }
-    await db.execute(`
+    console.log(await db.execute(`
         SELECT * FROM notes;
-    `)
+    `));
 })
 
 
@@ -195,16 +197,22 @@ app.post("/save", async (req,res)=> {
 //         return res.json({status: "200", id: id});
 //     })
 // })
-
 // ! Changed Code
-app.delete("/delete/:id",(req,res)=> {
-    const currId = req.params.id;
-    db.execute(`
-       DELETE FROM notes WHERE id = ? 
-    `, [currId]);
-    db.execute(`
-        SELECT * FROM notes;
-    `)
+app.delete("/delete/:id",async (req,res)=> {
+    try {
+        const currId = req.params.id;
+        console.log("Working upto here.");
+        await db.execute(`
+           DELETE FROM notes WHERE id = ? 
+        `, [currId]);
+        console.log(await db.execute(`
+            SELECT * FROM notes;
+        `));
+        res.json({status: "200", message:"Deleted"})
+    } catch (error) {
+        console.log(`Database Error ${error}`);
+        res.status(500).send("Something went wrong");
+    }
 })
 
 // app.listen(port, ()=> {
