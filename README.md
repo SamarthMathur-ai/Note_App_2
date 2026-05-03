@@ -52,3 +52,6 @@ Day 2 3/05/2026
 What i learnt: crud operation with the help of mysql 2
               error handling with try and catch and hack proof using prepared statement
               and that json is still useful as even though we are using sql it is still used to interact with the frontend.
+              learnt that in such database i also need to send res.json(200) to keep the frontend and backennd in sync
+              almost completed the sql part of the app just have to sync the time sort thing
+              I will do the search later
