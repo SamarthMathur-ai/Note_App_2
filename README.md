@@ -48,6 +48,8 @@ const __dirname = path.dirname(__filename);
 
 
 
+
+
 Day 2 3/05/2026
 What i learnt: crud operation with the help of mysql 2
               error handling with try and catch and hack proof using prepared statement
@@ -55,3 +57,15 @@ What i learnt: crud operation with the help of mysql 2
               learnt that in such database i also need to send res.json(200) to keep the frontend and backennd in sync
               almost completed the sql part of the app just have to sync the time sort thing
               I will do the search later
+              
+
+
+
+DAY 3 5/05/2026
+What i learnt: Completed the sql things
+               Mainly learnt how to make a search bar which was very easy using sql and how to send response.json and make it
+               and did make it responsive according to screen size by ai though some updates are still necessary
+               Added a separate file for search bar and also learnt about eventlistener of text
+               Learn to send query in searches
+               now jwt authenticatioin is the next step.
+               
