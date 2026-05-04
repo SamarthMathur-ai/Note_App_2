@@ -53,11 +53,25 @@ console.log("This is working upto second step.");
 
 // ! Changed Code
 app.get("/",async (req,res)=>{
+
     try {
-        const [users] = await db.execute(`
-            SELECT * FROM notes ORDER BY update_time DESC;   
-        `)
-        res.render("index", {allnotes:users})
+        const searchQuery =req.query.q;
+        // ? if the query exists at all
+        if(searchQuery !== undefined) {
+            // * If there is a search term run the filtered query
+            const searchValue = `%${searchQuery}%`
+            const [users] = await db.execute(`
+                SELECT * FROM notes WHERE content LIKE ? OR title LIKE ? ORDER BY update_time DESC;
+            `,[searchValue,searchValue])
+
+            // ? Always remember tos= send data as JSON
+            return res.json(users);
+        } else {
+            const [users] = await db.execute(`
+                SELECT * FROM notes ORDER BY update_time DESC;   
+            `)
+            res.render("index", {allnotes:users})
+        }
     } catch (error) {
         console.log(`Database error: ${error}`);
         res.status(500).send("Something went wrong");

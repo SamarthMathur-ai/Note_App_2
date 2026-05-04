@@ -449,3 +449,68 @@ textarea::-webkit-scrollbar {
     padding: 0;
     line-height: 1;
 }
+
+
+/* =========================
+   Mobile Responsiveness
+   ========================= */
+@media (max-width: 768px) {
+
+    /* 1. Fix the App Bar & Buttons */
+    .sbtn {
+        width: auto;
+        /* Let the button grow to fit the text */
+        padding: 0 10px;
+        /* Give it some breathing room */
+        font-size: 16px;
+    }
+
+    #appbar p {
+        font-size: 14px;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    /* 2. Fix the Sidebar */
+    #sidebar {
+        width: 50px;
+        /* Set a fixed minimum size */
+        position: absolute;
+        /* Float over the textarea so it doesn't squish it */
+        height: 80vh;
+        z-index: 10;
+    }
+
+    #sidebar.open {
+        width: 200px;
+        /* Open to a fixed readable width instead of 20% */
+    }
+
+    /* 3. Fix the Text Areas */
+    #head {
+        width: 90%;
+        left: 0;
+        /* Reset the 30% push */
+        margin: 0 auto 15px auto;
+        /* Perfectly center it */
+        font-size: 30px;
+        /* Scale down the title slightly */
+    }
+
+    #note {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    /* 4. Fix the Popups (Search Menu) */
+    #savedCont,
+    #aboutBox {
+        width: 90%;
+        /* Take up most of the phone screen */
+        left: 5%;
+        /* Center it horizontally */
+        top: 60px;
+        max-height: 80vh;
+        /* Don't let it scroll past the screen */
+    }
+}

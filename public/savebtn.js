@@ -46,7 +46,7 @@ const saveBtnFunc = async()=>{
         if(currId == null) {
             // Create a brand new card
             currId = result.id;
-            const sidebar = document.querySelector("#savedCont");
+            const sidebar = document.querySelector("#savedContChild");
             const newNoteCard = `
             <div class="actualSavedCont" data-id="${result.id}">
             <h3>${update.title}</h3>
@@ -54,7 +54,7 @@ const saveBtnFunc = async()=>{
             <button class="open-btn" onclick="window.onButton('${result.id}')">Open</button>
         </div> 
             `
-            sidebar.prepend(newNoteCard);
+            sidebar.insertAdjacentHTML('afterbegin', newNoteCard);;
         } else {
             // It is an existing note: find the card and update it
             const existingCard = document.querySelector(`.actualSavedCont[data-id="${currId}"]`);
@@ -62,11 +62,11 @@ const saveBtnFunc = async()=>{
             if(existingCard) {
                 existingCard.querySelector('h3').textContent = update.title;
                 existingCard.querySelector('p').textContent = update.content;
-                const sidebar = document.querySelector("#savedCont");
-                existingCard.style.border = "5px solid red"; // VISUAL TEST
+                const searchBar = document.querySelector('#searchbar');
+                
     
-                existingCard.reomve();
-                sidebar.prepend(existingCard);
+                
+                searchBar.insertAdjacentElement('afterend', existingCard);
             }
         }   
         currId = result.id;  

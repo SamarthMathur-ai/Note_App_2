@@ -65,15 +65,17 @@
         <!-- Popups / Containers -->
         <div id="savedCont" class="butbox">
             <input type="text" id="searchbar" placeholder="Search here....">
-            <% for (let note of allnotes) { %>
-                <div class="actualSavedCont" data-id="<%= note.id %>">
-                    <h3><%= note.title%></h3>
-                    <p><%= note.content%></p>
-                    <div>
-                        <button class="open-btn" onclick="window.onButton('<%= note.id%>')">open</button>
+            <div id="savedContChild">
+                <% for (let note of allnotes) { %>
+                    <div class="actualSavedCont" data-id="<%= note.id %>">
+                        <h3><%= note.title%></h3>
+                        <p><%= note.content%></p>
+                        <div>
+                            <button class="open-btn" onclick="window.onButton('<%= note.id%>')">open</button>
+                        </div>
                     </div>
-                </div>
-            <% } %>
+                <% } %>
+            </div>
         </div>
         <div id="aboutBox" class="butbox"></div>
 
@@ -90,6 +92,7 @@
     <script type="module" src="script.js"></script>
     <script type="module" src="sidebar.js"></script>
     <script type="module" src="savebtn.js"></script>
+    <script type="module" src="searchbar.js"></script>
 
 </body>
 </html>
