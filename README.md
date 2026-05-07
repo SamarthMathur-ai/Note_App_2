@@ -68,4 +68,9 @@ What i learnt: Completed the sql things
                Added a separate file for search bar and also learnt about eventlistener of text
                Learn to send query in searches
                now jwt authenticatioin is the next step.
+
+
+
+Day 4 7/05/2026
+Whar i learnt: Learning jwt authentication still. and about data security stuff.
                
