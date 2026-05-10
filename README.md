@@ -73,4 +73,11 @@ What i learnt: Completed the sql things
 
 Day 4 7/05/2026
 Whar i learnt: Learning jwt authentication still. and about data security stuff.
+
+
+Day 5 10/05/2026
+Actually added some authentication just making some refresh token and access token
+added the access token to the database of the user
+made a jwt middleware!
+and the biggest thing cleared the structure of server side of app.
                
