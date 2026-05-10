@@ -43,9 +43,33 @@ const handleLogin = async(req , res) => {
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '3d' }
         )
+
+
+        // ! Saving refreshToken with current user
+        // * How to do it in json although it is no use for us.
+        // const otherUsers = usersDB.users.filter(person => person.uername!==foundUser.username);
+        // const currentUser = {...foundUser,refreshToken};
+        // usersDB.setUsers([...otherUsers, currentUser]);
+        // await fsPromises.writeFile(
+        //     path.join(__dirname, '..','model','users.json'),
+        //     JSON.stringify(usersDB.users)
+        // );
+
+        // * How to do it in database?
+        await db.execute(`
+            UPDATE users
+            SET passkey = refreshToken
+            WHERE name = user;
+        `)
+        res.cookie('jwt', refreshToken, {httpOnly:true, maxAge: 24*60*60*1000});
+        res.json({accessToken});
+    } else {
+        res.sendStatus(401);
     }
     
+
 
     
 }
 
+export {handleLogin};
