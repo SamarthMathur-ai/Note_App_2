@@ -300,26 +300,26 @@
       </div>
 
       <div class="container-form">
-        <div class="form-item log-in">
+        <form class="form-item log-in" a>
           <div class="table">
             <div class="table-cell">
-              <input name="Username" placeholder="Username" type="text" />
-              <input name="Password" placeholder="Password" type="password" />
-              <div class="btn">Log in</div>
+              <input name="user[Username]" placeholder="Username" type="text" />
+              <input name="user[Password]" placeholder="Password" type="password" />
+              <button class="btn" type="submit">Log in</button>
             </div>
           </div>
-        </div>
-        <div class="form-item sign-up">
+        </form>
+        <form class="form-item sign-up">
           <div class="table">
             <div class="table-cell">
               <input name="email" placeholder="Email" type="text" />
               <input name="fullName" placeholder="Full Name" type="text" />
               <input name="Username" placeholder="Username" type="text" />
               <input name="Password" placeholder="Password" type="password" />
-              <div class="btn">Sign up</div>
+              <button class="btn" type="submit">Sign up</button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -338,9 +338,15 @@
     });
 
     $(".container-form .btn").click(function () {
-      $(".container").addClass("active");
+      if ($(this).attr("type") !== "submit") {
+        $(".container").addClass("active");
+    }
     });
-  </script>
 
+
+    
+  </script>
+  <script type ="module" src="userController.js"></script>
+  <script type="module" src="signinCredentials.js"></script>
 </body>
 </html>
