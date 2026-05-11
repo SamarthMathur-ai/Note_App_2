@@ -81,3 +81,8 @@ added the access token to the database of the user
 made a jwt middleware!
 and the biggest thing cleared the structure of server side of app.
                
+
+Day 6 11/05/2026
+Added signup logic and finalised the user database for now.
+learnt how to connect frontend to backend and then backend to frontend
+next work is to complete user authenticaion as the database is complete
