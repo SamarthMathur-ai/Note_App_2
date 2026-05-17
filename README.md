@@ -86,3 +86,9 @@ Day 6 11/05/2026
 Added signup logic and finalised the user database for now.
 learnt how to connect frontend to backend and then backend to frontend
 next work is to complete user authenticaion as the database is complete
+
+
+Day 7 17/05/2026
+Added authentication of login and successfully redirected to login page
+went towards the cookies route rather than the header route
+had some difficult code need to revise in the next code.
