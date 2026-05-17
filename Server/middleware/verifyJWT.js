@@ -1,23 +1,17 @@
 import jwt from 'jsonwebtoken';
-import 'dotenv/config';
 
+const verifyJWT = (req, res, next) => {
+    const cookies = req.cookies; // * req.cookies is an object containing all cookies the browser sent with request. cookie-parser middleware is wat makes this available+
+    console.log("Cookies received:", cookies); // ← add this
+    console.log("JWT cookie:", cookies?.jwt);  // ← add this
+    
+    if (!cookies?.jwt) return res.redirect('/login');// * uses optional chaining- it safely checks if cookies exists and has a jwt property.
 
-// ! We are making a middleware here
-// ! We are making a middleware so as to check every user accessing the protected route.
-const verifyJWT = (req, res, next)=>{
-    const authHeader = req.headers['authorization'];  //* this check the header of the http request so as to check if authorization is written on it
-    if(!authHeader) return res.sendStatus(401); // * Unauthorised access
-    console.log(authHeader); // * Bearer Token The bearer token is something like this "Bearer eyJhbGciOiJIUzI1..." 
-    const token = authHeader.split(' ')[1]; // * SO basically it split at space and take the second elemenet.
-    jwt.verify(
-        token,                                  
-        process.env.ACCESS_TOKEN_SECRET, // * Simply using the secret key to verify the token;
-        (err, decoded) => {
-            if(err) return res.sendStatus(403); // * HTTP  understands the request but refuses to authorize it .
-            req.user = decoded.username; //* If good then the decoded.username is stored in req.user;
-            next();
-        }
-    )
-}
+    jwt.verify(cookies.jwt, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {// * cookies.jwt-the actual refresh token string stored in the cookie   and the other thing is the secret key used to verify it wasn't tampered with.
+        if (err) return res.redirect('/login');
+        req.user = decoded.username; // * if tooken is valid decoded contains whatever you stored in it during login.
+        next();
+    });
+};
 
-export {verifyJWT};
+export default verifyJWT;

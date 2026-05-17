@@ -7,7 +7,9 @@ let currId = null;
 
 /// OPEN BUTTON
 window.onButton = async(id) => {
-    const response = await fetch(`/getNote/${id}`);
+    const response = await fetch(`/getNote/${id}`,{
+        credentials: 'include'
+    });
     const result = await response.json();
     currId = result.id;
     const head = document.querySelector("#head");
@@ -32,11 +34,13 @@ const saveBtnFunc = async()=>{
         };
         console.log(update);
         
-
+        const token = sessionStorage.getItem('accessToken');
         const response = await fetch('/save', {
             method : 'POST',
+            credentials: 'include',
             headers : {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                
             },
             body : JSON.stringify(update)       
         })
@@ -136,7 +140,8 @@ const deleteBtnFunc = async() => {
         // if the function is saved already in the json file then we have to delete it 
         if(currId != null) {
             const response = await fetch(`/delete/${currId}`,{
-                method : 'DELETE'
+                method : 'DELETE',
+                credentials: 'include'
             });
             const data = await response.json();
             if(data.status==="200") {

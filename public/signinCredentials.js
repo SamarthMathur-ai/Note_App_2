@@ -1,5 +1,7 @@
 const signUpForm = document.querySelector(".form-item.sign-up");
+const loginForm = document.querySelector('.form-item.log-in');
 
+console.log(loginForm);
 console.log(signUpForm);
 
 // * Making sure the form actually exists
@@ -42,3 +44,48 @@ if(signUpForm) {
         }
     })
 }
+
+
+if(loginForm) {
+    loginForm.addEventListener('submit', async(e)=>{
+        // * Stopping the form reloading page
+        e.preventDefault();
+
+        // * Scooping up all the form data 
+        const formData = new FormData(loginForm);
+
+        // * Converting all the formdata into json object
+        const loginData = Object.fromEntries(formData);
+
+        console.log("Sending login data to backend: ", loginData);
+        const token = localStorage.getItem('accessToken');
+        
+
+        try {
+            // * the delivery driver
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            // ! reading the backend's reply
+            if (response.ok) {
+                const result = await response.json();
+                localStorage.setItem('accessToken', result.accessToken);
+                window.location.href = result.redirectTo;
+            } else {
+                alert('Login failed. Check your credentials.');
+            }
+        } catch (error) {
+            console.log("Something went wrong: ", error);
+        }
+
+    })
+}
+
+
+
